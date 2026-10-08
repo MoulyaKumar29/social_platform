@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block title %}Users{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+    <h2 class="mb-4">Users</h2>
+
+    <form method="GET" class="mb-4">
+        <div class="input-group">
+            <input
+                type="text"
+                name="search"
+                class="form-control"
+                placeholder="Search users..."
+                value="{{ search_query }}"
+            >
+
+            <button type="submit" class="btn btn-primary">
+                Search
+            </button>
+        </div>
+    </form>
+
+    {% for user_item in users %}
+
+        <div class="card shadow-sm mb-3">
+            <div class="card-body">
+
+                <h5>{{ user_item.username }}</h5>
+
+                <a
+                    href="{% url 'user_profile' user_item.username %}"
+                    class="btn btn-outline-secondary btn-sm me-2"
+                >
+                    View Profile
+                </a>
+
+                {% if user_item.id in following_ids %}
+
+                    <a
+                        href="{% url 'unfollow_user' user_item.username %}"
+                        class="btn btn-outline-danger btn-sm"
+                    >
+                        Unfollow
+                    </a>
+
+                {% else %}
+
+                    <a
+                        href="{% url 'follow_user' user_item.username %}"
+                        class="btn btn-primary btn-sm"
+                    >
+                        Follow
+                    </a>
+
+                {% endif %}
+
+            </div>
+        </div>
+
+    {% empty %}
+
+        <p class="text-muted">
+            No users found.
+        </p>
+
+    {% endfor %}
+
+</div>
+
+{% endblock %}

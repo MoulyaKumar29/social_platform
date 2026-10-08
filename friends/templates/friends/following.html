@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}Following{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+    <h2 class="mb-4">Following</h2>
+
+    {% for follow in following %}
+
+        <div class="card shadow-sm mb-3">
+            <div class="card-body">
+                <h5>{{ follow.following.username }}</h5>
+
+                <small class="text-muted">
+                    Following since {{ follow.created_at|date:"d M Y" }}
+                </small>
+            </div>
+        </div>
+
+    {% empty %}
+
+        <p class="text-muted">
+            You are not following anyone yet.
+        </p>
+
+    {% endfor %}
+
+</div>
+
+{% endblock %}

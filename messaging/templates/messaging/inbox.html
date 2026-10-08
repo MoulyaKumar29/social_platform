@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}Messages{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+    <h2 class="mb-4">Messages</h2>
+
+    {% for user_item in users %}
+
+        <div class="card shadow-sm mb-3">
+            <div class="card-body">
+
+                <h5>{{ user_item.username }}</h5>
+
+                <a
+                    href="{% url 'conversation' user_item.username %}"
+                    class="btn btn-primary btn-sm"
+                >
+                    Open Chat
+                </a>
+
+            </div>
+        </div>
+
+    {% empty %}
+
+        <p class="text-muted">
+            You don't have any conversations yet.
+        </p>
+
+    {% endfor %}
+
+</div>
+
+{% endblock %}

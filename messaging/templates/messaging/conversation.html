@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block title %}Chat with {{ other_user.username }}{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+    <h2 class="mb-4">
+        Chat with {{ other_user.username }}
+    </h2>
+
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+
+            {% for message in messages %}
+
+                <div class="mb-3">
+
+                    {% if message.sender == request.user %}
+
+                        <div class="text-end">
+                            <strong>You</strong>
+
+                            <p class="mb-1">
+                                {{ message.content }}
+                            </p>
+
+                            <small class="text-muted">
+                                {{ message.created_at|date:"d M Y, H:i" }}
+                            </small>
+                        </div>
+
+                    {% else %}
+
+                        <div>
+                            <strong>
+                                {{ message.sender.username }}
+                            </strong>
+
+                            <p class="mb-1">
+                                {{ message.content }}
+                            </p>
+
+                            <small class="text-muted">
+                                {{ message.created_at|date:"d M Y, H:i" }}
+                            </small>
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+            {% empty %}
+
+                <p class="text-muted">
+                    No messages yet. Start the conversation!
+                </p>
+
+            {% endfor %}
+
+        </div>
+    </div>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <button type="submit" class="btn btn-primary">
+            Send Message
+        </button>
+
+        <a
+            href="{% url 'inbox' %}"
+            class="btn btn-secondary"
+        >
+            Back to Messages
+        </a>
+    </form>
+
+</div>
+
+{% endblock %}
